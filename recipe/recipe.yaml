@@ -1,0 +1,48 @@
+schema_version: 1
+
+context:
+  name: de-berufssprachkurssuche
+  version: "0.1.0"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/de-berufssprachkurssuche-${{ version }}.tar.gz
+  sha256: cad1b742b5baa90ca68b4eb2171521a33c5ce37ee5a77c2fbab3342888c51836
+
+build:
+  number: 2
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - poetry
+  run:
+    - python >=${{ python_min }}
+    - python-dateutil
+    - urllib3 >=1.25.3
+
+tests:
+  - python:
+      imports:
+        - deutschland.berufssprachkurssuche
+      pip_check: true
+      python_version:
+        - ${{ python_min }}
+        - "*"
+
+about:
+  summary: Arbeitsagentur Berufssprachkurssuche API
+  license: Apache-2.0
+  license_file:
+    - LICENSE
+  homepage: https://github.com/bundesAPI/berufssprachkurssuche-api
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
